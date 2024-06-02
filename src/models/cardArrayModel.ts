@@ -6,6 +6,6 @@ export interface CardWithId extends Card {
   id: number;
 }
 
-export interface ICardId {
-  cards: CardWithId[];
+export interface ISingleCard {
+  card: CardWithId;
 }

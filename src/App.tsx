@@ -19,13 +19,16 @@ const App: React.FC = () => {
     setTurns(0);
   };
 
-  console.log(cards, turns);
   return (
     <div className="App">
       <h1>Magic Match</h1>
       <button onClick={shuffleCard}>New Game</button>
       <div className="card-grid">
-        <SingleCard cards={cards} />
+        {cards.map((card: CardWithId) => (
+          <div className="card" key={card.id}>
+            <SingleCard card={card} />
+          </div>
+        ))}
       </div>
     </div>
   );
