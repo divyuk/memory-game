@@ -2,10 +2,11 @@ import "./App.css";
 
 import React, { useState } from "react";
 import cardArray from "./const/cardArray";
-import { Card } from "./models/cardArrayModel";
+import { CardWithId } from "./models/cardArrayModel";
+import SingleCard from "./components/SingleCard";
 
 const App: React.FC = () => {
-  const [cards, setCards] = useState<Card[]>([]);
+  const [cards, setCards] = useState<CardWithId[]>([]);
   const [turns, setTurns] = useState<number>(0);
 
   // Shuffle Card
@@ -24,14 +25,7 @@ const App: React.FC = () => {
       <h1>Magic Match</h1>
       <button onClick={shuffleCard}>New Game</button>
       <div className="card-grid">
-        {cards.map((card) => (
-          <div className="card" key={card.id}>
-            <div>
-              <img src={card.src} alt="card-front" className="front" />
-              <img src="/img/cover.png" alt="card-back" className="back" />
-            </div>
-          </div>
-        ))}
+        <SingleCard cards={cards} />
       </div>
     </div>
   );
