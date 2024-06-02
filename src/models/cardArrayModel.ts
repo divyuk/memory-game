@@ -10,4 +10,6 @@ export interface CardWithId extends Card {
 export interface ISingleCard {
   card: CardWithId;
   handleChoice: (card: CardWithId) => void;
+  flipped: boolean;
+  disabled: boolean;
 }

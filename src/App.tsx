@@ -10,10 +10,12 @@ const App: React.FC = () => {
   const [turns, setTurns] = useState<number>(0);
   const [choiceOne, setChoiceOne] = useState<CardWithId | null>(null);
   const [choiceTwo, setChoiceTwo] = useState<CardWithId | null>(null);
+  const [disabled, setDisabled] = useState(false);
 
   // Use useEffect to check for matches after state updates
   useEffect(() => {
     if (choiceOne && choiceTwo) {
+      setDisabled(true);
       if (choiceOne.src === choiceTwo.src) {
         setCards((prevCards) => {
           return prevCards.map((card) => {
@@ -21,12 +23,10 @@ const App: React.FC = () => {
             else return card;
           });
         });
-      } else console.log("Do not much");
-      resetTurn();
+        resetTurn();
+      } else setTimeout(() => resetTurn(), 1000);
     }
   }, [choiceOne, choiceTwo]);
-
-  console.log(cards);
 
   // Shuffle Card
   const shuffleCard = () => {
@@ -34,9 +34,14 @@ const App: React.FC = () => {
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
 
+    setChoiceOne(null);
+    setChoiceTwo(null);
     setCards(shuffledCards);
     setTurns(0);
   };
+
+  // Start the game with shuffling the card
+  useEffect(() => shuffleCard(), []);
 
   // Handle the choice
   const handleChoice = (card: CardWithId) => {
@@ -50,6 +55,7 @@ const App: React.FC = () => {
     setChoiceOne(null);
     setChoiceTwo(null);
     setTurns((prevTurn) => prevTurn + 1);
+    setDisabled(false);
   };
 
   return (
@@ -59,11 +65,16 @@ const App: React.FC = () => {
       <div className="card-grid">
         {cards.map((card: CardWithId) => (
           <div className="card" key={card.id}>
-            <SingleCard card={card} handleChoice={handleChoice} />
+            <SingleCard
+              card={card}
+              handleChoice={handleChoice}
+              flipped={card === choiceOne || card === choiceTwo || card.matched}
+              disabled={disabled}
+            />
           </div>
         ))}
       </div>
-      <p>{turns}</p>
+      <p>Turns : {turns}</p>
     </div>
   );
 };
