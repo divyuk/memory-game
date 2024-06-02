@@ -1,5 +1,6 @@
 export interface Card {
   src: string;
+  matched: boolean;
 }
 
 export interface CardWithId extends Card {
@@ -8,4 +9,5 @@ export interface CardWithId extends Card {
 
 export interface ISingleCard {
   card: CardWithId;
+  handleChoice: (card: CardWithId) => void;
 }
